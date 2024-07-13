@@ -5,6 +5,14 @@
 int main() {
     int offset = 1;
     int input;
+    std::ifstream fileQ;
+    std::ifstream fileA;
+    std::string question;
+    std::string answer;
+    std::string expersAnswer;
+    fileQ.open("../questions.txt");
+    fileA.open("../answers.txt");
+
     std::vector<int> played;
     int expertPoints = 0;
     int viewerPoints = 0;
@@ -23,8 +31,22 @@ int main() {
             offset -= 13;
         }
 
+        for (int i = 0; i < offset; i++) {
+            getline(fileQ, question);
+            getline(fileA, answer);
+        }
+        std::cout << question << std::endl;
 
+        std::cout << "Please enter your answer in one word";
+        std::cin >> expersAnswer;
+        if (expersAnswer == answer) {
+            expertPoints++;
+        } else {
+            viewerPoints++;
+        }
     }
+    fileQ.close();
+    fileQ.close();
 
     return 0;
 }
