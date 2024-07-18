@@ -12,6 +12,23 @@ std::string readXLine(std::ifstream &file, int numberLine) {
     return buffer;
 }
 
+int banQuestions(int number, std::vector<int> &vec) {
+    bool found = true;
+    while (found) {
+        found = false;
+        for (int i = 0; i < vec.size(); i++) {
+            if (number == vec[i]) {
+                number++;
+                found = true;
+                break;
+            }
+        }
+    }
+    vec.push_back(number);
+
+    return number;
+}
+
 int main() {
     int offset = 1;
     int input;
@@ -27,7 +44,7 @@ int main() {
     fileQ.open("../questions.txt");
     fileA.open("../answers.txt");
 
-    while (expertPoints != 13 || viewerPoints != 13) {
+    while (expertPoints < 6 && viewerPoints < 6) {
         std::cout << "Choose sector:" << std::endl;
         std::cin >> input;
         while (input < 1 || input > 13) {
@@ -40,6 +57,7 @@ int main() {
         if (offset > 13) {
             offset -= 13;
         }
+        offset = banQuestions(offset, played);
         question = readXLine(fileQ, offset);
         answer = readXLine(fileA, offset);
 
@@ -51,6 +69,12 @@ int main() {
             expertPoints++;
         } else {
             viewerPoints++;
+        }
+
+        if (expertPoints == 6) {
+            std::cout << "Experts won!" << std::endl;
+        } else if (viewerPoints == 6) {
+            std::cout << "Viewers won!" << std::endl;
         }
     }
     fileQ.close();
